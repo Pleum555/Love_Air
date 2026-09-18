@@ -401,7 +401,7 @@
       </div>
       <div class="fallback-row" id="fallbackRow" hidden>
         <button class="btn btn-ghost" id="copyBtn">คัดลอกข้อความ</button>
-        <a class="btn btn-ghost" id="mailBtn" href="#" style="text-decoration:none; display:inline-block;">ส่งเป็นอีเมลแทน</a>
+        <a class="btn btn-ghost" id="mailBtn" href="#" style="text-decoration:none; display:inline-block;" hidden>ส่งเป็นอีเมลแทน</a>
       </div>
     </div>
   </section>
@@ -568,7 +568,12 @@
   var fallbackRow = document.getElementById('fallbackRow');
   var copyBtn = document.getElementById('copyBtn');
   var mailBtn = document.getElementById('mailBtn');
-  var OWNER_EMAIL = "Aura_Scan@cdg.co.th";
+  // ไม่ฝังอีเมลไว้ในโค้ด (repo นี้เป็น public) — ถ้าอยากได้ปุ่ม "ส่งเป็นอีเมลแทน"
+  // ให้เจ้าของเปิด console ของเบราว์เซอร์แล้วรัน:
+  // localStorage.setItem('love-air-owner-email', 'you@example.com')
+  // ค่านี้อยู่เฉพาะในเบราว์เซอร์ของเจ้าของเท่านั้น ไม่ถูกอัปโหลดที่ไหน
+  var OWNER_EMAIL = '';
+  try{ OWNER_EMAIL = localStorage.getItem('love-air-owner-email') || ''; }catch(e){}
   var lastMessageText = '';
 
   sendBtn.addEventListener('click', function(){
@@ -586,7 +591,10 @@
     sendStatus.textContent = 'ส่งเข้าไปในปราสาทแล้วนะ ขอบคุณมาก ๆ เลย 💌';
     launchConfetti();
     fallbackRow.hidden = false;
-    mailBtn.href = 'mailto:' + OWNER_EMAIL + '?subject=' + encodeURIComponent('ข้อความจากปราสาทง้อแอร์') + '&body=' + encodeURIComponent(fullText);
+    if (OWNER_EMAIL){
+      mailBtn.hidden = false;
+      mailBtn.href = 'mailto:' + OWNER_EMAIL + '?subject=' + encodeURIComponent('ข้อความจากปราสาทง้อแอร์') + '&body=' + encodeURIComponent(fullText);
+    }
 
     document.getElementById('msgInput').value = '';
   });
