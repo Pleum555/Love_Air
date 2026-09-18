@@ -1,0 +1,708 @@
+<title>ปราสาทง้อแอร์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Mitr:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #fdf3fa;
+    --bg-2: #f7e6f7;
+    --surface: #ffffff;
+    --surface-2: #fff0f8;
+    --ink: #3a2145;
+    --muted: #8b6f9e;
+    --accent: #e85d9b;
+    --accent-2: #7b5ea7;
+    --gold: #e8ac3d;
+    --line: #f0d9ef;
+    --shadow: 0 10px 30px -12px rgba(123,94,167,0.35);
+    --sky-1: #ffd9ec;
+    --sky-2: #d9c6f7;
+    --sky-3: #bfe3f6;
+    --star: #7b5ea7;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #170f2b;
+      --bg-2: #1f1440;
+      --surface: #241a44;
+      --surface-2: #2c1f52;
+      --ink: #f5eafb;
+      --muted: #b79fcb;
+      --accent: #ff86bb;
+      --accent-2: #b79bfa;
+      --gold: #ffd166;
+      --line: #3a2a63;
+      --shadow: 0 10px 34px -10px rgba(0,0,0,0.55);
+      --sky-1: #241638;
+      --sky-2: #1a1030;
+      --sky-3: #150c28;
+      --star: #ffe9a8;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #170f2b;
+    --bg-2: #1f1440;
+    --surface: #241a44;
+    --surface-2: #2c1f52;
+    --ink: #f5eafb;
+    --muted: #b79fcb;
+    --accent: #ff86bb;
+    --accent-2: #b79bfa;
+    --gold: #ffd166;
+    --line: #3a2a63;
+    --shadow: 0 10px 34px -10px rgba(0,0,0,0.55);
+    --sky-1: #241638;
+    --sky-2: #1a1030;
+    --sky-3: #150c28;
+    --star: #ffe9a8;
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{
+    font-family: "Chonburi", "Mitr", system-ui, sans-serif;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--accent-2);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) h1, :root:not([data-theme="light"]) h2, :root:not([data-theme="light"]) h3{ color: var(--gold); } }
+  :root[data-theme="dark"] h1, :root[data-theme="dark"] h2, :root[data-theme="dark"] h3{ color: var(--gold); }
+
+  img{ max-width:100%; }
+  button{ font-family: inherit; }
+  :focus-visible{ outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap{ max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  section{ padding-block: 56px; position: relative; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-block: 0;
+    background: linear-gradient(180deg, var(--sky-1), var(--sky-2) 55%, var(--sky-3));
+    overflow: hidden;
+  }
+  .hero-inner{
+    max-width: 720px; margin: 0 auto; padding: 64px 20px 0;
+    text-align: center; position: relative; min-height: 560px;
+  }
+  .sky{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .star-sp{
+    position:absolute; width:10px; height:10px;
+    background: var(--star);
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+    opacity:.85; animation: twinkle 2.6s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{ opacity:.25; transform:scale(.7);} 50%{ opacity:1; transform:scale(1.15);} }
+  .kicker{
+    display:inline-block; font-size: .82rem; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent);
+    padding: 6px 14px; border-radius:999px; margin-bottom:18px; position:relative; z-index:2;
+  }
+  .hero h1{ font-size: clamp(2rem, 7vw, 3rem); position:relative; z-index:2; }
+  .hero p.lead{ color: var(--ink); opacity:.85; max-width: 46ch; margin: 14px auto 0; position:relative; z-index:2; }
+
+  .castle{ display:block; width:100%; max-width:520px; margin: 28px auto -6px; position:relative; z-index:2; }
+  .cloud{ position:absolute; opacity:.9; animation: drift 26s linear infinite; }
+  @keyframes drift{ from{ transform: translateX(-10%);} to{ transform: translateX(10%);} }
+
+  .fox{ display:block; margin: 0 auto; }
+  .fox .mouth-sad, .fox .mouth-happy, .fox .eyes-happy, .fox .eyes-open, .fox .eyes-pleading, .fox .sparkle-eyes{ display:none; }
+  .fox[data-mood="open"] .eyes-open{ display:block; }
+  .fox[data-mood="happy"] .eyes-happy{ display:block; }
+  .fox[data-mood="happy"] .mouth-happy{ display:block; }
+  .fox[data-mood="open"] .mouth-sad{ display:block; }
+  .fox[data-mood="pleading"] .eyes-pleading{ display:block; }
+  .fox[data-mood="pleading"] .sparkle-eyes{ display:block; }
+  .fox[data-mood="pleading"] .mouth-sad{ display:block; }
+
+  /* ---------- INTRO / LETTER ---------- */
+  .letter{
+    background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+    padding: 30px clamp(20px,5vw,40px); box-shadow: var(--shadow); position:relative;
+    margin-top:-40px; z-index:3;
+  }
+  .letter h2{ font-size: 1.5rem; margin-bottom:14px; }
+  .letter p{ margin:0 0 12px; color: var(--ink); }
+  .letter p:last-child{ margin-bottom:0; }
+  .signature{ text-align:right; color: var(--muted); font-style:normal; margin-top:18px; }
+
+  .section-title{ text-align:center; margin-bottom: 8px; font-size: 1.6rem; }
+  .section-sub{ text-align:center; color: var(--muted); margin: 0 0 32px; }
+
+  /* ---------- STORYBOOK CARDS ---------- */
+  .book{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .card-stage{ position:relative; width:100%; max-width: 420px; }
+  .story-card{
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 24px;
+    padding: 28px 24px 24px; text-align:center; box-shadow: var(--shadow);
+    display:none; animation: pop .35s ease;
+  }
+  .story-card.active{ display:block; }
+  @keyframes pop{ from{ opacity:0; transform: scale(.94);} to{ opacity:1; transform:scale(1);} }
+  .story-card .fox{ width:104px; height:104px; margin-bottom:10px; }
+  .story-card .tag{ font-size:.78rem; color: var(--accent); letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .story-card p{ font-size:1.05rem; margin:0; }
+
+  .book-controls{ display:flex; align-items:center; gap:18px; }
+  .arrow-btn{
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--line);
+    background: var(--surface); color: var(--accent-2); font-size:1.1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition: transform .15s, background .15s;
+    box-shadow: 0 4px 14px -6px rgba(0,0,0,.2);
+  }
+  .arrow-btn:hover{ background: var(--surface-2); transform: scale(1.08); }
+  .arrow-btn:active{ transform: scale(.94); }
+  .dots{ display:flex; gap:8px; }
+  .dot{ width:8px; height:8px; border-radius:50%; background: var(--line); transition: background .2s, transform .2s; }
+  .dot.active{ background: var(--accent); transform: scale(1.3); }
+  .swipe-hint{ font-size:.82rem; color: var(--muted); text-align:center; margin-top:2px; }
+
+  /* ---------- FORGIVE GAME ---------- */
+  .game-box{
+    background: var(--surface); border:1px solid var(--line); border-radius:24px;
+    padding: 34px 22px; text-align:center; box-shadow: var(--shadow); position:relative;
+    overflow:hidden;
+  }
+  .game-box .fox{ width:120px; height:120px; margin: 0 auto 6px; }
+  .game-q{ font-size:1.2rem; margin: 6px 0 22px; }
+  .game-actions{ position:relative; height:160px; display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .btn{
+    border:none; border-radius:999px; padding: 14px 26px; font-size:1rem; font-weight:600;
+    cursor:pointer; transition: transform .12s ease, box-shadow .12s ease; font-family:"Mitr",sans-serif;
+  }
+  .btn-yes{
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff;
+    box-shadow: 0 10px 20px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .btn-yes:hover{ transform: scale(1.06); }
+  .btn-no{
+    background: var(--surface-2); color: var(--muted); border:1px solid var(--line);
+    position: relative;
+  }
+  .dodge-caption{ min-height: 1.4em; color: var(--accent); font-size:.9rem; margin-top:14px; }
+  .game-result{ margin-top:10px; font-size:1.05rem; }
+
+  /* ---------- COMPOSE ---------- */
+  .compose-box{
+    background: var(--surface); border:1px solid var(--line); border-radius:24px;
+    padding: 30px clamp(18px,5vw,34px); box-shadow: var(--shadow);
+  }
+  .mood-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
+  .mood-chip{
+    border:1px solid var(--line); background: var(--surface-2); color: var(--ink);
+    padding:10px 16px; border-radius:999px; cursor:pointer; font-size:.92rem; transition: all .15s;
+  }
+  .mood-chip.selected{ background: var(--accent); border-color: var(--accent); color:#fff; }
+  label.field-label{ display:block; font-size:.85rem; color: var(--muted); margin-bottom:6px; }
+  input[type="text"], textarea{
+    width:100%; border:1px solid var(--line); border-radius:14px; padding:12px 14px;
+    background: var(--bg); color: var(--ink); font-family:"Mitr",sans-serif; font-size:1rem;
+    resize: vertical;
+  }
+  .field{ margin-bottom:16px; }
+  .send-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:space-between; margin-top:6px; }
+  .btn-send{ background: linear-gradient(135deg, var(--gold), var(--accent)); color:#3a2145; box-shadow: 0 10px 20px -8px color-mix(in srgb, var(--gold) 55%, transparent); }
+  .send-status{ font-size:.88rem; color: var(--muted); min-height:1.4em; }
+  .fallback-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .btn-ghost{ background:transparent; border:1px solid var(--line); color: var(--accent-2); font-size:.85rem; padding:9px 14px; }
+
+  /* ---------- ADMIN / LOG ---------- */
+  .admin{
+    background: var(--surface-2); border: 1px dashed var(--accent-2); border-radius: 22px;
+    padding: 24px clamp(16px,4vw,30px);
+  }
+  .admin h2{ font-size:1.2rem; display:flex; align-items:center; gap:8px; }
+  .log-list{ list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; max-height:360px; overflow:auto; }
+  .log-item{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; }
+  .log-item .meta{ font-size:.76rem; color: var(--muted); display:flex; justify-content:space-between; gap:10px; }
+  .log-item .msg{ margin-top:4px; }
+  .log-empty{ color: var(--muted); font-size:.92rem; text-align:center; padding: 18px 0; }
+  .backstage-toggle{ display:block; margin: 30px auto 0; background:none; border:none; color: var(--muted); font-size:.78rem; cursor:pointer; opacity:.6; }
+  .backstage-toggle:hover{ opacity:1; }
+
+  footer{ text-align:center; color: var(--muted); font-size:.82rem; padding: 30px 20px 40px; }
+
+  .confetti{ position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden; }
+  .confetti span{
+    position:absolute; top:-10px; width:8px; height:8px; border-radius:2px;
+    animation: fall 1.8s ease-in forwards;
+  }
+  @keyframes fall{ to{ transform: translateY(110vh) rotate(360deg); opacity:0; } }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  }
+
+  [hidden]{ display:none !important; }
+</style>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="sky" id="sky"></div>
+    <span class="kicker">จดหมายลับจากปราสาท</span>
+    <h1>ปราสาทง้อแอร์</h1>
+    <p class="lead">มีเรื่องอยากบอกแอร์นิดหน่อยนะ... เดินเข้ามาในปราสาทนี้แล้วค่อย ๆ อ่านไปด้วยกันได้ไหม 💌</p>
+
+    <svg class="castle" viewBox="0 0 400 200" aria-hidden="true">
+      <polygon points="60,150 60,90 40,90 40,150" fill="var(--accent-2)"/>
+      <polygon points="30,90 50,60 70,90" fill="var(--accent)"/>
+      <rect x="46" y="8" width="8" height="18" fill="var(--accent-2)"/>
+      <polygon points="54,8 54,18 68,13" fill="var(--gold)"/>
+      <rect x="30" y="90" width="40" height="14" fill="var(--accent-2)" opacity=".5"/>
+
+      <polygon points="340,150 340,90 360,90 360,150" fill="var(--accent-2)"/>
+      <polygon points="330,90 350,60 370,90" fill="var(--accent)"/>
+      <rect x="346" y="8" width="8" height="18" fill="var(--accent-2)"/>
+      <polygon points="354,8 354,18 368,13" fill="var(--gold)"/>
+
+      <rect x="90" y="60" width="220" height="90" rx="6" fill="var(--surface)"/>
+      <polygon points="150,30 150,70 250,70 250,30 200,-6" fill="var(--accent-2)"/>
+      <rect x="90" y="60" width="220" height="10" fill="var(--accent-2)" opacity=".35"/>
+
+      <rect x="150" y="14" width="7" height="16" fill="var(--accent-2)"/>
+      <polygon points="157,14 157,23 168,18" fill="var(--gold)"/>
+      <rect x="243" y="14" width="7" height="16" fill="var(--accent-2)"/>
+      <polygon points="250,14 250,23 261,18" fill="var(--gold)"/>
+
+      <path d="M180 150 v-34 a20 20 0 0 1 40 0 v34 z" fill="var(--accent-2)"/>
+      <circle cx="130" cy="100" r="10" fill="var(--sky-1)" stroke="var(--accent-2)" stroke-width="2"/>
+      <circle cx="270" cy="100" r="10" fill="var(--sky-1)" stroke="var(--accent-2)" stroke-width="2"/>
+      <circle cx="200" cy="90" r="9" fill="var(--gold)" opacity=".55"/>
+    </svg>
+
+    <svg class="fox" data-mood="open" width="110" height="110" viewBox="0 0 120 120" aria-hidden="true">
+      <polygon points="22,34 38,10 46,42" fill="var(--accent)"/>
+      <polygon points="98,34 82,10 74,42" fill="var(--accent)"/>
+      <polygon points="27,32 36,18 40,38" fill="#fff" opacity=".7"/>
+      <polygon points="93,32 84,18 80,38" fill="#fff" opacity=".7"/>
+      <ellipse cx="60" cy="66" rx="40" ry="34" fill="var(--accent)"/>
+      <ellipse cx="60" cy="76" rx="20" ry="16" fill="#fff"/>
+      <circle cx="42" cy="80" r="7" fill="#ffb6d5" opacity=".8"/>
+      <circle cx="78" cy="80" r="7" fill="#ffb6d5" opacity=".8"/>
+      <g class="eyes-open">
+        <circle cx="46" cy="62" r="4.5" fill="var(--ink)"/>
+        <circle cx="74" cy="62" r="4.5" fill="var(--ink)"/>
+        <circle cx="47.5" cy="60.5" r="1.3" fill="#fff"/>
+        <circle cx="75.5" cy="60.5" r="1.3" fill="#fff"/>
+      </g>
+      <g class="eyes-happy">
+        <path d="M40 62 q6 -8 12 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M68 62 q6 -8 12 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="eyes-pleading">
+        <ellipse cx="46" cy="63" rx="5.5" ry="6.5" fill="var(--ink)"/>
+        <ellipse cx="74" cy="63" rx="5.5" ry="6.5" fill="var(--ink)"/>
+        <circle cx="48" cy="60" r="1.6" fill="#fff"/>
+        <circle cx="76" cy="60" r="1.6" fill="#fff"/>
+      </g>
+      <polygon points="60,72 55,78 65,78" fill="var(--ink)" opacity=".8"/>
+      <path class="mouth-sad" d="M52 86 q8 -6 16 0" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path class="mouth-happy" d="M50 84 q10 10 20 0" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ============ LETTER ============ -->
+  <section id="letter" style="padding-top:0;">
+    <div class="letter">
+      <h2>เรื่องมันเป็นแบบนี้...</h2>
+      <p>ก่อนอื่นเลย ขอโทษจริง ๆ นะที่ทำให้แอร์รู้สึกไม่ดี ไม่ว่าจะเป็นคำพูด การกระทำ หรือความไม่ใส่ใจที่ผ่านมา ไม่ได้ตั้งใจให้เรื่องมันบานปลายขนาดนี้เลย</p>
+      <p>รู้ดีว่าคำขอโทษอย่างเดียวอาจไม่พอ แต่อยากให้แอร์รู้ว่าเรื่องนี้อยู่ในใจตลอด และอยากจะทำให้ดีขึ้นจริง ๆ ไม่ใช่แค่พูดผ่าน ๆ</p>
+      <p>เลยสร้างปราสาทเล็ก ๆ นี้ขึ้นมา ให้แอร์ได้เดินดูทีละห้อง ห้องไหนแอร์อยากข้ามก็ข้ามได้ แต่ถ้าอ่านจนจบ... จะดีใจมากเลย</p>
+      <p class="signature">— ด้วยใจจริง 💗</p>
+    </div>
+  </section>
+
+  <!-- ============ STORYBOOK ============ -->
+  <section id="storybook">
+    <h2 class="section-title">สมุดนิทานง้อใจ</h2>
+    <p class="section-sub">กดลูกศรซ้าย–ขวา หรือปัดจอ เพื่ออ่านทีละหน้า</p>
+    <div class="book">
+      <div class="card-stage" id="cardStage">
+        <!-- cards injected by JS -->
+      </div>
+      <div class="book-controls">
+        <button class="arrow-btn" id="prevCard" aria-label="หน้าก่อนหน้า">‹</button>
+        <div class="dots" id="cardDots"></div>
+        <button class="arrow-btn" id="nextCard" aria-label="หน้าถัดไป">›</button>
+      </div>
+      <p class="swipe-hint">ปัดซ้าย/ขวาบนมือถือได้เลยนะ</p>
+    </div>
+  </section>
+
+  <!-- ============ FORGIVE GAME ============ -->
+  <section id="game">
+    <h2 class="section-title">เกมเล็ก ๆ ก่อนคืนดี</h2>
+    <p class="section-sub">ลองตอบดูสักหน่อยนะ ไม่กดโกงล่ะ 👀</p>
+    <div class="game-box">
+      <svg class="fox" data-mood="pleading" width="110" height="110" viewBox="0 0 120 120" aria-hidden="true">
+        <polygon points="22,34 38,10 46,42" fill="var(--accent)"/>
+        <polygon points="98,34 82,10 74,42" fill="var(--accent)"/>
+        <polygon points="27,32 36,18 40,38" fill="#fff" opacity=".7"/>
+        <polygon points="93,32 84,18 80,38" fill="#fff" opacity=".7"/>
+        <ellipse cx="60" cy="66" rx="40" ry="34" fill="var(--accent)"/>
+        <ellipse cx="60" cy="76" rx="20" ry="16" fill="#fff"/>
+        <circle cx="42" cy="80" r="7" fill="#ffb6d5" opacity=".8"/>
+        <circle cx="78" cy="80" r="7" fill="#ffb6d5" opacity=".8"/>
+        <g class="eyes-pleading">
+          <ellipse cx="46" cy="63" rx="5.5" ry="6.5" fill="var(--ink)"/>
+          <ellipse cx="74" cy="63" rx="5.5" ry="6.5" fill="var(--ink)"/>
+          <circle cx="48" cy="60" r="1.6" fill="#fff"/>
+          <circle cx="76" cy="60" r="1.6" fill="#fff"/>
+        </g>
+        <polygon points="60,72 55,78 65,78" fill="var(--ink)" opacity=".8"/>
+        <path class="mouth-sad" d="M52 86 q8 -6 16 0" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <p class="game-q">ตอนนี้แอร์ให้อภัย(คนที่กำลังง้ออยู่)ได้หรือยัง? 🥺</p>
+      <div class="game-actions" id="gameActions">
+        <button class="btn btn-yes" id="btnYes">ให้อภัยแล้ว 💗</button>
+        <button class="btn btn-no" id="btnNo" style="position:relative;">ยังไม่ให้ตอนนี้</button>
+      </div>
+      <p class="dodge-caption" id="dodgeCaption"></p>
+      <p class="game-result" id="gameResult"></p>
+    </div>
+  </section>
+
+  <!-- ============ COMPOSE ============ -->
+  <section id="compose">
+    <h2 class="section-title">อยากบอกอะไรอีกไหม</h2>
+    <p class="section-sub">เลือกอารมณ์ตอนนี้สักอย่าง แล้วพิมพ์เพิ่มเติมได้เลยถ้าอยากอธิบายเอง</p>
+    <div class="compose-box">
+      <div class="mood-row" id="moodRow">
+        <button class="mood-chip" data-mood="ยังงอนอยู่นิดนึง 🥺">ยังงอนอยู่นิดนึง 🥺</button>
+        <button class="mood-chip" data-mood="หายแล้วนะ 💗">หายแล้วนะ 💗</button>
+        <button class="mood-chip" data-mood="ยังไม่แน่ใจ 🤔">ยังไม่แน่ใจ 🤔</button>
+        <button class="mood-chip" data-mood="อยากคุยกันมากกว่านี้ 💬">อยากคุยกันมากกว่านี้ 💬</button>
+      </div>
+      <div class="field">
+        <label class="field-label" for="nameInput">ชื่อ (จะใส่หรือไม่ใส่ก็ได้)</label>
+        <input type="text" id="nameInput" placeholder="แอร์" maxlength="40">
+      </div>
+      <div class="field">
+        <label class="field-label" for="msgInput">อยากบอกอะไรตรง ๆ ก็พิมพ์ตรงนี้ได้เลย</label>
+        <textarea id="msgInput" rows="4" maxlength="600" placeholder="พิมพ์ข้อความถึงกันตรงนี้ได้เลยนะ..."></textarea>
+      </div>
+      <div class="send-row">
+        <button class="btn btn-send" id="sendBtn">ส่งเข้าไปในปราสาท ✨</button>
+        <span class="send-status" id="sendStatus"></span>
+      </div>
+      <div class="fallback-row" id="fallbackRow" hidden>
+        <button class="btn btn-ghost" id="copyBtn">คัดลอกข้อความ</button>
+        <a class="btn btn-ghost" id="mailBtn" href="#" style="text-decoration:none; display:inline-block;">ส่งเป็นอีเมลแทน</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OWNER LOG ============ -->
+  <section id="adminSection" hidden>
+    <div class="admin">
+      <h2>🔐 หลังบ้านเจ้าของปราสาท</h2>
+      <p class="section-sub" style="margin:6px 0 0; text-align:left;">ข้อความทั้งหมดที่ถูกส่งเข้ามาในปราสาท (มองเห็นเฉพาะเจ้าของเท่านั้น)</p>
+      <ul class="log-list" id="logList">
+        <li class="log-empty">ยังไม่มีข้อความเข้ามาเลยตอนนี้</li>
+      </ul>
+    </div>
+  </section>
+
+  <button class="backstage-toggle" id="backstageToggle" type="button">•</button>
+</div>
+
+<footer>ทำด้วยใจ สำหรับแอร์คนเดียวเท่านั้น 🦊💌</footer>
+
+<div class="confetti" id="confetti" hidden></div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- sky stars ----------
+  var sky = document.getElementById('sky');
+  for (var i=0;i<26;i++){
+    var s = document.createElement('div');
+    s.className = 'star-sp';
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = (Math.random()*55) + '%';
+    s.style.animationDelay = (Math.random()*2.6) + 's';
+    var sz = 5 + Math.random()*8;
+    s.style.width = sz+'px'; s.style.height = sz+'px';
+    sky.appendChild(s);
+  }
+
+  // ---------- storybook cards ----------
+  var cards = [
+    { tag:'หน้า 1', text:'ขอโทษที่บางทีทำให้แอร์รู้สึกไม่สำคัญ ทั้งที่จริง ๆ แล้วแอร์สำคัญมากนะ' },
+    { tag:'หน้า 2', text:'ขอโทษที่บางครั้งสื่อสารไม่ดีพอ จนทำให้เข้าใจกันผิด' },
+    { tag:'หน้า 3', text:'ขอโทษที่ปล่อยให้เรื่องเล็ก ๆ กลายเป็นเรื่องใหญ่ระหว่างเรา' },
+    { tag:'หน้า 4', text:'สัญญาว่าจะรับฟังแอร์มากขึ้น และใส่ใจในสิ่งที่แอร์รู้สึกจริง ๆ' },
+    { tag:'หน้า 5', text:'ไม่ว่าจะเกิดอะไรขึ้น อยากให้รู้ไว้ว่าแอร์สำคัญกว่าที่คิดไว้มากเลย' }
+  ];
+  var stage = document.getElementById('cardStage');
+  var dotsWrap = document.getElementById('cardDots');
+  cards.forEach(function(c, idx){
+    var el = document.createElement('div');
+    el.className = 'story-card' + (idx===0 ? ' active':'');
+    el.innerHTML =
+      '<svg class="fox" data-mood="open" width="90" height="90" viewBox="0 0 120 120" aria-hidden="true">' +
+      '<polygon points="22,34 38,10 46,42" fill="var(--accent)"/><polygon points="98,34 82,10 74,42" fill="var(--accent)"/>' +
+      '<polygon points="27,32 36,18 40,38" fill="#fff" opacity=".7"/><polygon points="93,32 84,18 80,38" fill="#fff" opacity=".7"/>' +
+      '<ellipse cx="60" cy="66" rx="40" ry="34" fill="var(--accent)"/><ellipse cx="60" cy="76" rx="20" ry="16" fill="#fff"/>' +
+      '<circle cx="42" cy="80" r="7" fill="#ffb6d5" opacity=".8"/><circle cx="78" cy="80" r="7" fill="#ffb6d5" opacity=".8"/>' +
+      '<g class="eyes-happy"><path d="M40 62 q6 -8 12 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<path d="M68 62 q6 -8 12 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/></g>' +
+      '<polygon points="60,72 55,78 65,78" fill="var(--ink)" opacity=".8"/>' +
+      '<path class="mouth-happy" style="display:block" d="M50 84 q10 10 20 0" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/>' +
+      '</svg>' +
+      '<span class="tag">' + c.tag + ' / ' + cards.length + '</span>' +
+      '<p>' + c.text + '</p>';
+    stage.appendChild(el);
+
+    var dot = document.createElement('span');
+    dot.className = 'dot' + (idx===0 ? ' active':'');
+    dotsWrap.appendChild(dot);
+  });
+
+  var current = 0;
+  var cardEls = stage.querySelectorAll('.story-card');
+  var dotEls = dotsWrap.querySelectorAll('.dot');
+  function showCard(idx){
+    idx = (idx + cardEls.length) % cardEls.length;
+    cardEls[current].classList.remove('active');
+    dotEls[current].classList.remove('active');
+    current = idx;
+    cardEls[current].classList.add('active');
+    dotEls[current].classList.add('active');
+  }
+  document.getElementById('prevCard').addEventListener('click', function(){ showCard(current-1); });
+  document.getElementById('nextCard').addEventListener('click', function(){ showCard(current+1); });
+
+  var touchX = null;
+  stage.addEventListener('touchstart', function(e){ touchX = e.changedTouches[0].clientX; }, {passive:true});
+  stage.addEventListener('touchend', function(e){
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40){ showCard(current + (dx < 0 ? 1 : -1)); }
+    touchX = null;
+  }, {passive:true});
+
+  // ---------- forgive game ----------
+  var btnNo = document.getElementById('btnNo');
+  var btnYes = document.getElementById('btnYes');
+  var actions = document.getElementById('gameActions');
+  var caption = document.getElementById('dodgeCaption');
+  var result = document.getElementById('gameResult');
+  var dodgeCount = 0;
+  var dodgeLines = ['ต๊าย~ จับไม่ได้หรอกน้า','ใกล้แล้ว ๆ','ยังไม่ทันเลย 😆','อีกนิดเดียว!','โอเค โอเค ยอมละ...'];
+  var forgiven = false;
+
+  function dodge(){
+    if (forgiven) return;
+    dodgeCount++;
+    if (dodgeCount >= 5){
+      btnNo.textContent = 'ก็ได้ๆ ให้อภัยละกัน 🥲';
+      caption.textContent = 'สู้ไม่ไหวแล้ว...';
+      return;
+    }
+    var box = actions.getBoundingClientRect();
+    var maxX = Math.max(0, box.width - btnNo.offsetWidth - 20);
+    var maxY = Math.max(0, box.height - btnNo.offsetHeight - 10);
+    btnNo.style.position = 'relative';
+    btnNo.style.left = (Math.random()*maxX - maxX/2) + 'px';
+    btnNo.style.top = (Math.random()*maxY - maxY/2) + 'px';
+    caption.textContent = dodgeLines[Math.min(dodgeCount-1, dodgeLines.length-1)];
+  }
+  btnNo.addEventListener('mouseenter', dodge);
+  btnNo.addEventListener('click', function(){
+    forgiven = true;
+    result.textContent = 'อ่ะ~ ก็ยังให้อภัยอยู่ดีนะ 😌💗 ขอบคุณที่ใจดีนะ';
+    launchConfetti();
+    logEntry({ type:'forgive-game', choice:'ให้อภัยหลังจากงอน', dodges: dodgeCount });
+  });
+  btnYes.addEventListener('click', function(){
+    forgiven = true;
+    result.textContent = 'ขอบคุณมาก ๆ เลยนะ 🥹💗 สัญญาว่าจะดีขึ้นแน่นอน';
+    launchConfetti();
+    logEntry({ type:'forgive-game', choice:'ให้อภัยแล้ว', dodges: dodgeCount });
+  });
+
+  function launchConfetti(){
+    var wrap = document.getElementById('confetti');
+    wrap.hidden = false;
+    var colors = ['#e85d9b','#7b5ea7','#e8ac3d','#ffb6d5'];
+    for (var i=0;i<40;i++){
+      var p = document.createElement('span');
+      p.style.left = Math.random()*100 + '%';
+      p.style.background = colors[i % colors.length];
+      p.style.animationDelay = (Math.random()*0.4)+'s';
+      p.style.animationDuration = (1.2 + Math.random()*1)+'s';
+      wrap.appendChild(p);
+    }
+    setTimeout(function(){ wrap.innerHTML=''; wrap.hidden = true; }, 2400);
+  }
+
+  // ---------- mood chips ----------
+  var selectedMood = null;
+  document.getElementById('moodRow').addEventListener('click', function(e){
+    var chip = e.target.closest('.mood-chip');
+    if (!chip) return;
+    document.querySelectorAll('.mood-chip').forEach(function(c){ c.classList.remove('selected'); });
+    chip.classList.add('selected');
+    selectedMood = chip.dataset.mood;
+  });
+
+  // ---------- compose / send ----------
+  var sendBtn = document.getElementById('sendBtn');
+  var sendStatus = document.getElementById('sendStatus');
+  var fallbackRow = document.getElementById('fallbackRow');
+  var copyBtn = document.getElementById('copyBtn');
+  var mailBtn = document.getElementById('mailBtn');
+  var OWNER_EMAIL = "Aura_Scan@cdg.co.th";
+  var lastMessageText = '';
+
+  sendBtn.addEventListener('click', function(){
+    var name = document.getElementById('nameInput').value.trim();
+    var msg = document.getElementById('msgInput').value.trim();
+    if (!selectedMood && !msg){
+      sendStatus.textContent = 'เลือกอารมณ์ หรือพิมพ์อะไรสักหน่อยก่อนนะ 🙏';
+      return;
+    }
+    var fullText = (name ? 'จาก: ' + name + '\n' : '') + (selectedMood ? 'อารมณ์: ' + selectedMood + '\n' : '') + (msg ? 'ข้อความ: ' + msg : '');
+    lastMessageText = fullText;
+
+    logEntry({ type:'letter', name: name || null, mood: selectedMood, message: msg });
+
+    sendStatus.textContent = 'ส่งเข้าไปในปราสาทแล้วนะ ขอบคุณมาก ๆ เลย 💌';
+    launchConfetti();
+    fallbackRow.hidden = false;
+    mailBtn.href = 'mailto:' + OWNER_EMAIL + '?subject=' + encodeURIComponent('ข้อความจากปราสาทง้อแอร์') + '&body=' + encodeURIComponent(fullText);
+
+    document.getElementById('msgInput').value = '';
+  });
+
+  copyBtn.addEventListener('click', function(){
+    if (!lastMessageText) return;
+    navigator.clipboard && navigator.clipboard.writeText(lastMessageText).then(function(){
+      copyBtn.textContent = 'คัดลอกแล้ว ✓';
+      setTimeout(function(){ copyBtn.textContent = 'คัดลอกข้อความ'; }, 1800);
+    }).catch(function(){});
+  });
+
+  // ---------- persistence: db capability with localStorage fallback ----------
+  var dbNs = null;
+  var userNs = null;
+  var LOCAL_KEY = 'love-air-log-v1';
+
+  function localLog(entry){
+    try{
+      var raw = localStorage.getItem(LOCAL_KEY);
+      var list = raw ? JSON.parse(raw) : [];
+      list.push(entry);
+      if (list.length > 200) list = list.slice(-200);
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    }catch(e){}
+  }
+  function readLocalLog(){
+    try{
+      var raw = localStorage.getItem(LOCAL_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+
+  function logEntry(data){
+    var entry = Object.assign({ ts: Date.now() }, data);
+    localLog(entry);
+    if (dbNs){
+      dbNs.collection('letters').add(entry).catch(function(){});
+    }
+    renderAdminLog();
+  }
+
+  function fmtTime(ts){
+    try{ return new Date(ts).toLocaleString('th-TH', { dateStyle:'short', timeStyle:'short' }); }
+    catch(e){ return ''; }
+  }
+
+  function renderLogList(entries){
+    var list = document.getElementById('logList');
+    if (!entries.length){
+      list.innerHTML = '<li class="log-empty">ยังไม่มีข้อความเข้ามาเลยตอนนี้</li>';
+      return;
+    }
+    entries.sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
+    list.innerHTML = entries.map(function(e){
+      var head = e.type === 'forgive-game' ? ('🎮 ' + (e.choice||'')) : ('✉️ ' + (e.mood || 'ข้อความ'));
+      var body = e.message ? e.message : (e.type === 'forgive-game' ? ('งอนไปทั้งหมด ' + (e.dodges||0) + ' ครั้งก่อนใจอ่อน') : '');
+      var name = e.name ? e.name : 'ไม่ระบุชื่อ';
+      return '<li class="log-item"><div class="meta"><span>' + head + '</span><span>' + fmtTime(e.ts) + '</span></div>' +
+        (body ? '<div class="msg">' + escapeHtml(body) + '</div>' : '') +
+        '<div class="meta"><span>โดย: ' + escapeHtml(name) + '</span><span></span></div></li>';
+    }).join('');
+  }
+  function escapeHtml(str){
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function renderAdminLog(){
+    if (dbNs){
+      // live view handled by onSnapshot subscription set up in initCapabilities
+      return;
+    }
+    renderLogList(readLocalLog());
+  }
+
+  var adminSection = document.getElementById('adminSection');
+  var backstageShown = false;
+  function showBackstage(){
+    if (backstageShown) return;
+    backstageShown = true;
+    adminSection.hidden = false;
+    renderAdminLog();
+  }
+
+  document.getElementById('backstageToggle').addEventListener('click', function(){
+    if (backstageShown){ adminSection.hidden = true; backstageShown = false; return; }
+    var code = window.prompt('รหัสผ่านหลังบ้าน (เจ้าของปราสาทเท่านั้น)');
+    if (code !== null && code.trim().toLowerCase() === 'แอร์คือของขวัญ'){
+      showBackstage();
+    } else if (code !== null){
+      alert('รหัสไม่ถูกต้องนะ 🙈');
+    }
+  });
+
+  async function initCapabilities(){
+    try{
+      if (window.claude && typeof window.claude.use === 'function'){
+        userNs = await window.claude.use('user');
+        dbNs = await window.claude.use('db');
+
+        if (userNs){
+          var owner = await userNs.isOwner();
+          if (owner) showBackstage();
+        }
+        if (dbNs){
+          dbNs.collection('letters').orderBy('ts','desc').limit(100).onSnapshot(function(snap){
+            var entries = snap.docs.map(function(d){ return d.data(); });
+            renderLogList(entries.length ? entries : readLocalLog());
+          }, function(){ /* fall back silently */ });
+        }
+      }
+    }catch(e){ /* no capability runtime available: local fallback still works */ }
+  }
+  initCapabilities();
+  renderAdminLog();
+})();
+</script>
